@@ -30,6 +30,32 @@ $sqlstring = "SELECT ID, Navn, EfterNavn FROM mittable";
 }
 
 
-
-
+// post person
+function create(){
+ 
+    // query to insert record
+    $query = "INSERT INTO
+                " . $this->table_name . "
+            SET
+                Navn=:Navn, EfterNavn=:EfterNavn";
+ 
+    // prepare query
+    $stmt = $this->conn->prepare($query);
+ 
+    // sanitize
+    $this->Navn=htmlspecialchars(strip_tags($this->Navn));
+    $this->EfterNavn=htmlspecialchars(strip_tags($this->EfterNavn));
+ 
+    // bind values
+    $stmt->bindParam(":Navn", $this->Navn);
+    $stmt->bindParam(":EfterNavn", $this->EfterNavn);
+    // execute query
+    if($stmt->execute()){
+        return true;
+    }
+ 
+    return false;
+     
 }
+
+}//end
